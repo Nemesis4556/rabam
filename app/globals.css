@@ -1,0 +1,70 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  html,
+  body {
+    margin: 0;
+    padding: 0;
+    scroll-behavior: smooth;
+  }
+
+  /* Anchor targets (nav links, #top, #hakkimizda, ...) land just below the
+     fixed header instead of underneath it. Matches the header's height. */
+  [id] {
+    scroll-margin-top: 4rem;
+  }
+
+  body {
+    overscroll-behavior: none;
+    /* Defensive guard against accidental horizontal bleed (e.g. a stray
+       full-bleed image), kept on body only — the same rule on <html>
+       can disable the page's native vertical scrolling in some browsers/
+       preview contexts, which is why it was removed from there. */
+    max-width: 100%;
+    overflow-x: hidden;
+    @apply bg-background text-on-surface antialiased;
+  }
+
+  main > :first-child {
+    margin-top: 0 !important;
+  }
+
+  main > :last-child {
+    margin-bottom: 0 !important;
+  }
+
+  ::-webkit-scrollbar {
+    width: 0px;
+    display: none;
+  }
+
+  /* Replace the browser's default blue focus ring with the single brand
+     accent (red) so keyboard focus never introduces an off-brand color.
+     Keep it visible for accessibility — just on-brand. */
+  :focus-visible {
+    outline: 2px solid #e11d2e;
+    outline-offset: 2px;
+  }
+
+  /* Text selection in brand red instead of the default OS blue highlight. */
+  ::selection {
+    background-color: #e11d2e;
+    color: #ffffff;
+  }
+
+  /* Respect reduced-motion preferences globally. Section-level animation is
+     out of scope for this pass, but any transition already in use (hover
+     states, etc.) should not move for people who've asked for less motion. */
+  @media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+      scroll-behavior: auto !important;
+    }
+  }
+}
